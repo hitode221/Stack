@@ -17,13 +17,13 @@ public:
 		count_++;
 		if (array_size_ < count_) {
 			array_size_++;
-			T * temp = new T[count_];
+			T * temp = new T[array_size_];
 			for (size_t i = 0; i < count_ - 1; i++) {
 				temp[i] = array_[i];
 			}
 			temp[count_ - 1] = element;
 			delete[] array_;
-			array_ = new T[count_];
+			array_ = new T[array_size_];
 			for (size_t i = 0; i < count_; i++) {
 				array_[i] = temp[i];
 			}
