@@ -1,4 +1,7 @@
 #pragma once
+#include <stdexcept>
+
+using namespace std; 
 
 template <typename T>
 class stack {
@@ -34,6 +37,7 @@ public:
 		if (count_ != 0) {
 			return array_[--count_];
 		}
+		else throw logic_error("Empty stack");
 	}
 	~stack() {
 		if (array_size_ != 0) delete[] array_;
