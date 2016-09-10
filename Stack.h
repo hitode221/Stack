@@ -27,14 +27,14 @@ public:
 	}
 	void push(T const & element) {
 		if (array_size_ == count_) {
-				array_size_++;
-				T * temp = new T[array_size_];
-				for (size_t i = 0; i < count_; i++) {
-					temp[i] = array_[i];
-				}
-				delete[] array_;
-				array_ = temp;
+			array_size_++;
+			T * temp = new T[array_size_];
+			for (size_t i = 0; i < count_; i++) {
+				temp[i] = array_[i];
 			}
+			delete[] array_;
+			array_ = temp;
+		}
 		array_[count_] = element;
 		count_++;
 	}
