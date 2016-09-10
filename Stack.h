@@ -32,13 +32,10 @@ public:
 				for (size_t i = 0; i < count_; i++) {
 					temp[i] = array_[i];
 				}
-				temp[count_] = element;
 				delete[] array_;
 				array_ = temp;
 			}
-			else {
-				array_[count_] = element;
-			}
+		array_[count_] = element;
 		count_++;
 	}
 	T pop() {
