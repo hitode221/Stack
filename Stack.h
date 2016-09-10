@@ -14,32 +14,27 @@ public:
 		return array_size_;
 	}
 	void push(T const & element) {
-		count_++;
 		if (array_size_ == 0) {
 			array_size_++;
 			array_ = new T[array_size_];
-			array_[count_ - 1] = element;
-
+			array_[count_] = element;
 		}
 		else {
-			if (array_size_ < count_) {
+			if (array_size_ == count_) {
 				array_size_++;
 				T * temp = new T[array_size_];
-				for (size_t i = 0; i < count_ - 1; i++) {
+				for (size_t i = 0; i < count_; i++) {
 					temp[i] = array_[i];
 				}
-				temp[count_ - 1] = element;
+				temp[count_] = element;
 				delete[] array_;
-				array_ = new T[array_size_];
-				for (size_t i = 0; i < count_; i++) {
-					array_[i] = temp[i];
-				}
-				delete[] temp;
+				array_ = temp;
 			}
 			else {
-				array_[count_ - 1] = element;
+				array_[count_] = element;
 			}
 		}
+		count_++;
 	}
 	T pop() {
 		if (count_ != 0) {
