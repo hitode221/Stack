@@ -35,8 +35,7 @@ public:
 			delete[] array_;
 			array_ = temp;
 		}
-		array_[count_] = element;
-		count_++;
+		array_[count_++] = element;
 	}
 	T pop() {
 		if (count_ != 0) {
