@@ -7,6 +7,18 @@ template <typename T>
 class stack {
 public:
 	stack() : array_size_(0), count_(0), array_(nullptr){}
+	stack(const stack<T> & stack_) : array_size_(stack_.array_size_), count_(stack_.count_) {
+		array_ = new T[array_size_];
+		for (size_t i = 0; i < count_; i++) {
+			array_[i] = stack_.array_[i];
+		}
+	}
+	stack<T> & operator =(stack<T> & stack_) {
+		if (this != &stack_) {
+			stack(stack_).swap(*this);
+		}
+		return *this;
+	}
 	size_t count() const {
 		return count_;
 	}
@@ -14,13 +26,7 @@ public:
 		return array_size_;
 	}
 	void push(T const & element) {
-		if (array_size_ == 0) {
-			array_size_++;
-			array_ = new T[array_size_];
-			array_[count_] = element;
-		}
-		else {
-			if (array_size_ == count_) {
+		if (array_size_ == count_) {
 				array_size_++;
 				T * temp = new T[array_size_];
 				for (size_t i = 0; i < count_; i++) {
@@ -33,7 +39,6 @@ public:
 			else {
 				array_[count_] = element;
 			}
-		}
 		count_++;
 	}
 	T pop() {
@@ -42,8 +47,13 @@ public:
 		}
 		else throw logic_error("Empty stack");
 	}
+	void swap(stack & stack_) {
+		std::swap(array_size_, stack_.array_size_);
+		std::swap(count_, stack_.count_);
+		std::swap(array_, stack_.array_);
+	}
 	~stack() {
-		if (array_size_ != 0) delete[] array_;
+		delete[] array_;
 	}
 private:
 	T * array_;
