@@ -1,4 +1,5 @@
 #include "Stack.h"
+#include <catch.hpp>
 #include <iostream>
 #include <fstream>
 
@@ -8,7 +9,7 @@ SCENARIO("Stack push", "[push]") {
 	REQUIRE(Stack.pop() == 3);
 }
 
-SCENARIO("Stack pop") {
+SCENARIO("Stack pop", "[pop]") {
 	stack<int> Stack;
 	for (int i = 0; i < 10; i++) {
 		Stack.push(i);
