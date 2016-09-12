@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 
-SCENARIO("Stack init, "[init]"){
+SCENARIO("Stack init", "[init]"){
 	stack<int> Stack;
 	REQUIRE(Stack.count() == 0);
 }
