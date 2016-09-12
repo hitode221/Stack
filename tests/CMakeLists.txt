@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 
 set(TESTS_FOR_PROJECT Stack)
 
-project(Tests)
+project(tests)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
