@@ -1,5 +1,5 @@
 #include "Stack.h"
-
+#include <iostream>
 #ifndef STC_CPP
 #define STC_CPP
 
@@ -24,17 +24,17 @@ stack<T> & stack<T>::operator =(stack<T> & stack_) {
 	return *this;
 }
 template <typename T>
-size_t stack<T>::count() const {
+size_t stack<T>::count() const noexcept {
 	return count_;
 }
 template <typename T>
-size_t stack<T>::size() const {
+size_t stack<T>::size() const noexcept {
 	return array_size_;
 }
 template <typename T>
 void stack<T>::push(T const & element) {
 	if (array_size_ == count_) {
-		array_size_++;
+		array_size_ = array_size_ * 2 + (array_size_ == 0);
 		T * temp = new T[array_size_];
 		for (size_t i = 0; i < count_; i++) {
 			temp[i] = array_[i];
@@ -42,17 +42,25 @@ void stack<T>::push(T const & element) {
 		delete[] array_;
 		array_ = temp;
 	}
-	array_[count_++] = element;
+	array_[count_] = element;
+	count_++;
 }
 template <typename T>
-T stack<T>::pop() {
+T& stack<T>::top() const throw(logic_error) {
 	if (count_ != 0) {
-		return array_[--count_];
+		return array_[count_- 1];
 	}
 	else throw logic_error("Empty stack");
 }
 template <typename T>
-void stack<T>::swap(stack & stack_) {
+void stack<T>::pop() throw(logic_error){
+	if (count_ != 0) {
+		count_--;
+	}
+	else throw logic_error("Empty stack");
+}
+template <typename T>
+void stack<T>::swap(stack & stack_) noexcept {
 	std::swap(array_size_, stack_.array_size_);
 	std::swap(count_, stack_.count_);
 	std::swap(array_, stack_.array_);
