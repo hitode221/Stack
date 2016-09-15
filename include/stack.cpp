@@ -10,11 +10,8 @@ stack<T>::stack() : array_size_(0), count_(0), array_(nullptr) {}
 
 template <typename T>
 stack<T>::stack(const stack<T> & stack_) : array_size_(stack_.array_size_), count_(stack_.count_) {
-		array_ = new T[array_size_];
-		for (size_t i = 0; i < count_; i++) {
-			array_[i] = stack_.array_[i];
-		}
-	}
+	array_ = copy_array(stack_.array_, array_size_, array_size_);
+}
 
 template <typename T>
 stack<T> & stack<T>::operator =(stack<T> & stack_) {
@@ -35,10 +32,7 @@ template <typename T>
 void stack<T>::push(T const & element) {
 	if (array_size_ == count_) {
 		array_size_ = array_size_ * 2 + (array_size_ == 0);
-		T * temp = new T[array_size_];
-		for (size_t i = 0; i < count_; i++) {
-			temp[i] = array_[i];
-		}
+		T * temp = copy_array(array_, count_, array_size_);
 		delete[] array_;
 		array_ = temp;
 	}
@@ -68,5 +62,11 @@ void stack<T>::swap(stack & stack_) noexcept {
 template <typename T>
 stack<T>::~stack() {
 	delete[] array_;
+}
+template <typename T>
+T* copy_array(T * array_, size_t size, size_t new_size) {
+	T * temp = new T[new_size];
+	copy(array_, array_ + size, temp);
+	return temp;
 }
 #endif
