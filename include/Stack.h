@@ -9,11 +9,12 @@ public:
 	stack();
 	stack(const stack<T> & stack_);
 	stack<T> & operator =(stack<T> & stack_);
-	size_t count() const;
-	size_t size() const;
+	size_t count() const noexcept;
+	size_t size() const noexcept;
 	void push(T const & element);
-	T pop();
-	void swap(stack & stack_);
+	T& top() const throw(logic_error);
+	void pop() throw(logic_error);
+	void swap(stack & stack_) noexcept;
 	~stack();
 private:
 	T * array_;
