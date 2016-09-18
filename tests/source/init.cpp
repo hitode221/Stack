@@ -28,3 +28,15 @@ SCENARIO("Stack count", "[count]"){
 	}
 	REQUIRE(Stack.count() == 10);
 }
+SCENARIO("operator =","[operator =]"){
+	stack<int> Stack;
+	Stack.push(221);
+	stack<int> Stack_ = Stack; 
+	REQUIRE(Stack_.top() == 221);
+}
+SCENARIO("copy constructor","[copy constructor]"){
+	stack<int> Stack;
+	Stack.push(221);
+	stack<int> Stack_(Stack); 
+	REQUIRE(Stack_.top() == 221);
+}
