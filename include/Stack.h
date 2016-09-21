@@ -6,16 +6,16 @@ using namespace std;
 template <typename T>
 class stack {
 public:
-	stack(); //strong
-	stack(const stack<T> & stack_); //strong
-	stack<T> & operator =(stack<T> & stack_); //strong 
-	size_t count() const noexcept; //noexcept
-	size_t size() const noexcept; //noexcept
-	void push(T const & element); //strong
-	T& top() const throw(logic_error); //strong
-	void pop() throw(logic_error); //strong
-	void swap(stack & stack_) noexcept; //noexcept
-	~stack(); //noexcept
+	stack(); 
+	stack(const stack<T> & stack_); 
+	stack<T> & operator =(stack<T> & stack_);
+	size_t count() const noexcept; 
+	size_t size() const noexcept; 
+	void push(T const & element);
+	T& top() const throw(logic_error); 
+	void pop() throw(logic_error); 
+	void swap(stack & stack_) noexcept;
+	~stack(); 
 private:
 	T * array_;
 	size_t array_size_;
