@@ -4,6 +4,9 @@
 using namespace std; 
 
 template <typename T>
+T* copy_array(T * array_, size_t size, size_t new_size);
+
+template <typename T>
 class stack {
 public:
 	stack(); 
