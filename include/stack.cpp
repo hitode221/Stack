@@ -64,7 +64,7 @@ stack<T>::~stack() {
 	delete[] array_;
 }
 template <typename T>
-T* copy_array(T * array_, size_t size, size_t new_size) { //strong
+T* copy_array(T * array_, size_t size, size_t new_size) { 
 	T * temp = new T[new_size]; 
 	try {
 		copy(array_, array_ + size, temp);
