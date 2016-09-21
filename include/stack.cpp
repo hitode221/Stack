@@ -6,13 +6,6 @@
 using namespace std;
 
 template <typename T>
-T* copy_array(T * array_, size_t size, size_t new_size) {
-	T * temp = new T[new_size];
-	copy(array_, array_ + size, temp);
-	return temp;
-}
-
-template <typename T>
 stack<T>::stack() : array_size_(0), count_(0), array_(nullptr) {}
 
 template <typename T>
@@ -70,5 +63,16 @@ template <typename T>
 stack<T>::~stack() {
 	delete[] array_;
 }
-
+template <typename T>
+T* copy_array(T * array_, size_t size, size_t new_size) { //strong
+	T * temp = new T[new_size]; 
+	try {
+		copy(array_, array_ + size, temp);
+	}
+	catch (exception &e) {
+		delete[] temp;
+		throw;
+	}
+	return temp;
+}
 #endif
