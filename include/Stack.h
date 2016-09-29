@@ -9,7 +9,7 @@ T* copy_array(T * array_, size_t size, size_t new_size); //strong
 template <typename T>
 class stack {
 public:
-	stack(); //strong
+	stack(); //noexcept
 	stack(const stack<T> & stack_); //strong
 	stack<T> & operator =(stack<T> & stack_); //strong 
 	size_t count() const noexcept; //noexcept
