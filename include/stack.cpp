@@ -31,9 +31,10 @@ size_t stack<T>::size() const noexcept {//noexcept
 template <typename T>
 void stack<T>::push(T const & element) {//strong
 	if (array_size_ == count_) {
-		array_size_ = array_size_ * 2 + (array_size_ == 0);
-		T * temp = copy_array(array_, count_, array_size_);
+		size_t size = array_size_ * 2 + (array_size_ == 0);
+		T * temp = copy_array(array_, count_, size);
 		delete[] array_;
+		array_size_ = size;
 		array_ = temp;
 	}
 	array_[count_] = element;
