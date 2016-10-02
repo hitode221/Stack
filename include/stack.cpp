@@ -37,7 +37,7 @@ void stack<T>::push(T const & element) {//strong
 		array_ = temp;
 	}
 	array_[count_] = element;
-	count_++;
+	++count_;
 }
 template <typename T>
 T& stack<T>::top() const throw(logic_error) {//strong
@@ -49,7 +49,7 @@ T& stack<T>::top() const throw(logic_error) {//strong
 template <typename T>
 void stack<T>::pop() throw(logic_error){//strong
 	if (count_ != 0) {
-		count_--;
+		--count_;
 	}
 	else throw logic_error("Empty stack");
 }
