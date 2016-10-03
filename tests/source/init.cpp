@@ -41,7 +41,7 @@ SCENARIO("copy constructor","[copy constructor]"){
 	stack<int> Stack_(Stack); 
 	REQUIRE(Stack_.top() == 221);
 }
-SCENATIO("empty", "[empty]"){
+SCENARIO("empty", "[empty]"){
 	stack<int> Stack;
 	REQUIRE(Stack.empty());
 }
