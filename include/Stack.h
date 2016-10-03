@@ -15,6 +15,7 @@ public:
 	size_t count() const noexcept; //noexcept
 	size_t size() const noexcept; //noexcept
 	void push(T const & element); //strong
+	bool empty() const noexcept; //noexcept
 	T& top() const throw(logic_error); //strong
 	void pop() throw(logic_error); //strong
 	void swap(stack & stack_) noexcept; //noexcept
