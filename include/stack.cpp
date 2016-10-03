@@ -60,6 +60,9 @@ void stack<T>::swap(stack & stack_) noexcept {//noexcept
 	std::swap(count_, stack_.count_);
 	std::swap(array_, stack_.array_);
 }
+bool stack<T>::empty() const noexcept{ //noexcept
+	return (count_ == 0);
+}
 template <typename T>
 stack<T>::~stack() {//noexcept
 	delete[] array_;
