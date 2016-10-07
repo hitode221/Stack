@@ -1,4 +1,4 @@
-#include "Stack.h"
+#include "stack.h"
 #ifndef STC_CPP
 #define STC_CPP
 
@@ -35,8 +35,8 @@ stack<T>::stack() : ::allocator<T>() {};
 
 template <typename T>
 stack<T>::stack(stack const & stack_) : ::allocator<T>(stack_.count_) {
-	ptr_ = copy_array(stack_.ptr_, stack_.count_, stack_.size_);
-	size_ = stack_.size_;
+	ptr_ = copy_array(stack_.array_, stack_.count_, stack_.array_size_);
+	array_size_ = stack_.array_size_;
 }
 
 template <typename T>
