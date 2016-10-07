@@ -16,7 +16,7 @@ T* copy_array(T * array_, size_t size, size_t new_size) { //strong
 }
 
 template <typename T>
-::allocator <T>::allocator(size_t size = 0) : array_size_(size), count_(0), array_(new T[size]) {}; //noexcept
+::allocator <T>::allocator(size_t size) : array_size_(size), count_(0), array_(new T[size]) {}; //noexcept
 
 template<typename T>
 ::allocator<T>::~allocator(){ //noexcept
@@ -35,8 +35,8 @@ stack<T>::stack() : ::allocator<T>() {};
 
 template <typename T>
 stack<T>::stack(stack const & stack_) : ::allocator<T>(stack_.count_) {
-	array_ = copy_array(stack_.array_, stack_.count_, stack_.array_size_);
-	array_size_ = stack_.array_size_;
+	allocator<T>::array_ = copy_array(stack_.array_, stack_.count_, stack_.array_size_);
+	allocator<T>::array_size_ = stack_.array_size_;
 }
 
 template <typename T>
@@ -48,11 +48,11 @@ auto stack<T> :: operator =(stack<T> & stack_)->stack<T> &{ //strong
 }
 template <typename T>
 auto stack<T>::count() const  noexcept -> size_t{//noexcept
-	return count_;
+	return allocator<T>::count_;
 }
 template <typename T>
 auto stack<T>::size() const noexcept -> size_t{//noexcept
-	return array_size_;
+	return allocator<T>::array_size_;
 }
 template <typename T>
 auto stack<T>::push(T const & element) -> void{//strong
