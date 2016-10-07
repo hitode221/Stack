@@ -58,7 +58,7 @@ template <typename T>
 auto stack<T>::push(T const & element) -> void{//strong
 	if (::allocator<T>::array_size_ == ::allocator<T>::count_) {
 		size_t size = ::allocator<T>::array_size_ * 2 + (::allocator<T>::array_size_ == 0);
-		T * temp = copy_array(::allocator<T>::array_, ::allocator<T<::count_, size);
+		T * temp = copy_array(::allocator<T>::array_, ::allocator<T>::count_, size);
 		delete[] ::allocator<T>::array_;
 		::allocator<T>::array_size_ = size;
 		::allocator<T>::array_ = temp;
