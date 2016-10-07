@@ -16,7 +16,7 @@ T* copy_array(T * array_, size_t size, size_t new_size) { //strong
 }
 
 template <typename T>
-::allocator <T>::allocator(size_t size = 0) : array_size_(size), count_(0), array_(operator new (size*sizeof(T))) {}; //noexcept
+::allocator <T>::allocator(size_t size = 0) : array_size_(size), count_(0), array_(new T[size]) {}; //noexcept
 
 template<typename T>
 ::allocator<T>::~allocator(){ //noexcept
@@ -35,7 +35,7 @@ stack<T>::stack() : ::allocator<T>() {};
 
 template <typename T>
 stack<T>::stack(stack const & stack_) : ::allocator<T>(stack_.count_) {
-	ptr_ = copy_array(stack_.array_, stack_.count_, stack_.array_size_);
+	array_ = copy_array(stack_.array_, stack_.count_, stack_.array_size_);
 	array_size_ = stack_.array_size_;
 }
 
