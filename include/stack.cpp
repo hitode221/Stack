@@ -16,7 +16,7 @@ T* copy_array(T * array_, size_t size, size_t new_size) { //strong
 }
 
 template <typename T>
-::allocator <T>::allocator(size_t size) : array_size_(size), count_(0), array_(new T[size]) {}; //noexcept
+::allocator <T>::allocator(size_t size) : array_size_(size), count_(size), array_(new T[size]) {}; //noexcept
 
 template<typename T>
 ::allocator<T>::~allocator(){ //noexcept
