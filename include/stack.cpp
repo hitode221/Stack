@@ -56,33 +56,33 @@ auto stack<T>::size() const noexcept -> size_t{//noexcept
 }
 template <typename T>
 auto stack<T>::push(T const & element) -> void{//strong
-	if (array_size_ == count_) {
-		size_t size = array_size_ * 2 + (array_size_ == 0);
-		T * temp = copy_array(array_, count_, size);
-		delete[] array_;
-		array_size_ = size;
-		array_ = temp;
+	if (::allocator<T>::array_size_ == ::allocator<T>::count_) {
+		size_t size = ::allocator<T>::array_size_ * 2 + (::allocator<T>::array_size_ == 0);
+		T * temp = copy_array(::allocator<T>::array_, ::allocator<T<::count_, size);
+		delete[] ::allocator<T>::array_;
+		::allocator<T>::array_size_ = size;
+		::allocator<T>::array_ = temp;
 	}
-	array_[count_] = element;
-	++count_;
+	::allocator<T>::array_[::allocator<T>::count_] = element;
+	++::allocator<T>::count_;
 }
 template <typename T>
 auto stack<T>::top() const throw(logic_error) -> T& {//strong
-	if (count_ != 0) {
-		return array_[count_ - 1];
+	if (::allocator<T>::count_ != 0) {
+		return ::allocator<T>::array_[::allocator<T>::count_ - 1];
 	}
 	else throw logic_error("Empty stack");
 }
 template <typename T>
 auto stack<T>::pop() throw(logic_error)  -> void{//strong
-	if (count_ != 0) {
-		--count_;
+	if (::allocator<T>::count_ != 0) {
+		--::allocator<T>::count_;
 	}
 	else throw logic_error("Empty stack");
 }
 template <typename T>
 auto stack<T>::empty() const noexcept -> bool{ //noexcept
-	return (count_ == 0);
+	return (::allocator<T>::count_ == 0);
 }
 
 #endif
