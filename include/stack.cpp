@@ -1,4 +1,4 @@
-#include "Stack.h"
+#include "stack.h"
 #ifndef STC_CPP
 #define STC_CPP
 
@@ -15,16 +15,35 @@ T* copy_array(T * array_, size_t size, size_t new_size) { //strong
 	return temp;
 }
 
+template <typename T1, typename T2>
+void construct(T1 * ptr, T2 const & value) {
+	new(ptr) T1(value);
+}
+
 template <typename T>
-::allocator <T>::allocator(size_t size) : array_size_(size), count_(size), array_(new T[size]) {}; //noexcept
+void destroy(T * ptr) noexcept
+{
+	ptr->~T();
+}
+
+template <typename FwdIter>
+void destroy(FwdIter first, FwdIter last) noexcept
+{
+	for (; first != last; ++first) {
+		destroy(&*first);
+	}
+}
+
+template <typename T>
+::allocator <T>::allocator(size_t size) : array_size_(size), count_(0), array_(static_cast<T *>(size == 0 ? nullptr : operator new(size * sizeof(T)))) {}; //noexcept
 
 template<typename T>
 ::allocator<T>::~allocator(){ //noexcept
-	delete[] array_;
+	operator delete (array_);
 }
 
 template<typename T>
-auto ::allocator<T>::swap(allocator & other) noexcept -> void{ //noexcept
+auto ::allocator<T>::swap(::allocator<T> & other) noexcept -> void{ //noexcept
 	std::swap(array_, other.array_);
 	std::swap(count_, other.count_);
 	std::swap(array_size_, other.array_size_);
@@ -32,13 +51,13 @@ auto ::allocator<T>::swap(allocator & other) noexcept -> void{ //noexcept
 
 template <typename T> 
 stack<T>::stack() : ::allocator<T>() {};
-
 template <typename T>
-stack<T>::stack(stack const & stack_) : ::allocator<T>(stack_.count_) {
-	::allocator<T>::array_ = copy_array(stack_.array_, stack_.count_, stack_.array_size_);
-	::allocator<T>::array_size_ = stack_.array_size_;
+stack<T>::stack(stack const & stack_) : ::allocator<T>(stack_.array_size_) {
+	for (size_t i = 0; i < stack_.count_; i++) {
+		construct(array_ + i, stack_.array_[i]);
+	}
+	count_ = stack_.count_;
 }
-
 template <typename T>
 auto stack<T> :: operator =(stack<T> & stack_)->stack<T> &{ //strong 
 	if (this != &stack_) {
@@ -48,41 +67,50 @@ auto stack<T> :: operator =(stack<T> & stack_)->stack<T> &{ //strong
 }
 template <typename T>
 auto stack<T>::count() const  noexcept -> size_t{//noexcept
-	return ::allocator<T>::count_;
+	return count_;
 }
 template <typename T>
 auto stack<T>::size() const noexcept -> size_t{//noexcept
-	return ::allocator<T>::array_size_;
+	return array_size_;
 }
 template <typename T>
 auto stack<T>::push(T const & element) -> void{//strong
-	if (::allocator<T>::array_size_ == ::allocator<T>::count_) {
-		size_t size = ::allocator<T>::array_size_ * 2 + (::allocator<T>::array_size_ == 0);
-		T * temp = copy_array(::allocator<T>::array_, ::allocator<T>::count_, size);
-		delete[] ::allocator<T>::array_;
-		::allocator<T>::array_size_ = size;
-		::allocator<T>::array_ = temp;
+	if (count_ == array_size_) {
+		size_t array_size = array_size_ * 2 + (array_size_ == 0);
+		T* temp = static_cast<T *>(operator new (sizeof(T)*array_size));
+		for (size_t i = 0; i < count_; i++) {
+			construct(temp + i, array_[i]);
+		}
+		operator delete(array_);
+		array_ = temp;
+		array_size_ = array_size;
 	}
-	::allocator<T>::array_[::allocator<T>::count_] = element;
-	++::allocator<T>::count_;
+
+	construct(array_ + count_, element);
+	++count_;
 }
 template <typename T>
-auto stack<T>::top() const throw(logic_error) -> T& {//strong
-	if (::allocator<T>::count_ != 0) {
-		return ::allocator<T>::array_[::allocator<T>::count_ - 1];
+auto stack<T>::top() const throw(std::logic_error) -> T& {//strong
+	if (count_ != 0) {
+		return array_[count_ - 1];
 	}
-	else throw logic_error("Empty stack");
+	else throw std::logic_error("Empty stack");
 }
 template <typename T>
-auto stack<T>::pop() throw(logic_error)  -> void{//strong
-	if (::allocator<T>::count_ != 0) {
-		--::allocator<T>::count_;
+auto stack<T>::pop() throw(std::logic_error)  -> void{//strong
+	if (count_ != 0) {
+		destroy(array_ + count_ - 1);
+		--count_;
 	}
-	else throw logic_error("Empty stack");
+	else throw std::logic_error("Empty stack");
 }
 template <typename T>
 auto stack<T>::empty() const noexcept -> bool{ //noexcept
-	return (::allocator<T>::count_ == 0);
+	return (count_ == 0);
+}
+template<typename T> 
+stack<T>::~stack() {//noexcept
+	destroy(array_, array_ + count_);
 }
 
 #endif
