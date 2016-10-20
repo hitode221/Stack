@@ -44,9 +44,9 @@ template<typename T>
 
 template<typename T>
 auto ::allocator<T>::swap(::allocator<T> & other) noexcept -> void{ //noexcept
-	std::swap(array_, other.array_);
-	std::swap(count_, other.count_);
-	std::swap(array_size_, other.array_size_);
+	std::swap(allocator<T>::array_, other.array_);
+	std::swap(allocator<T>::count_, other.count_);
+	std::swap(allocator<T>::array_size_, other.array_size_);
 };
 
 template <typename T> 
@@ -54,9 +54,9 @@ stack<T>::stack() : ::allocator<T>() {};
 template <typename T>
 stack<T>::stack(stack const & stack_) : ::allocator<T>(stack_.array_size_) {
 	for (size_t i = 0; i < stack_.count_; i++) {
-		construct(array_ + i, stack_.array_[i]);
+		construct(allocator<T>::array_ + i, stack_.array_[i]);
 	}
-	count_ = stack_.count_;
+	allocator<T>::count_ = stack_.count_;
 }
 template <typename T>
 auto stack<T> :: operator =(stack<T> & stack_)->stack<T> &{ //strong 
@@ -67,50 +67,50 @@ auto stack<T> :: operator =(stack<T> & stack_)->stack<T> &{ //strong
 }
 template <typename T>
 auto stack<T>::count() const  noexcept -> size_t{//noexcept
-	return count_;
+	return allocator<T>::count_;
 }
 template <typename T>
 auto stack<T>::size() const noexcept -> size_t{//noexcept
-	return array_size_;
+	return allocator<T>::array_size_;
 }
 template <typename T>
 auto stack<T>::push(T const & element) -> void{//strong
-	if (count_ == array_size_) {
-		size_t array_size = array_size_ * 2 + (array_size_ == 0);
+	if (allocator<T>::count_ == allocator<T>::array_size_) {
+		size_t array_size = allocator<T>::array_size_ * 2 + (allocator<T>::array_size_ == 0);
 		T* temp = static_cast<T *>(operator new (sizeof(T)*array_size));
-		for (size_t i = 0; i < count_; i++) {
-			construct(temp + i, array_[i]);
+		for (size_t i = 0; i < allocator<T>::count_; i++) {
+			construct(temp + i, allocator<T>::array_[i]);
 		}
-		operator delete(array_);
-		array_ = temp;
-		array_size_ = array_size;
+		operator delete(allocator<T>::array_);
+		allocator<T>::array_ = temp;
+		allocator<T>::array_size_ = array_size;
 	}
 
-	construct(array_ + count_, element);
-	++count_;
+	construct(allocator<T>::array_ + allocator<T>::count_, element);
+	++allocator<T>::count_;
 }
 template <typename T>
 auto stack<T>::top() const throw(std::logic_error) -> T& {//strong
-	if (count_ != 0) {
-		return array_[count_ - 1];
+	if (allocator<T>::count_ != 0) {
+		return allocator<T>::array_[allocator<T>::count_ - 1];
 	}
 	else throw std::logic_error("Empty stack");
 }
 template <typename T>
 auto stack<T>::pop() throw(std::logic_error)  -> void{//strong
-	if (count_ != 0) {
-		destroy(array_ + count_ - 1);
-		--count_;
+	if (allocator<T>::count_ != 0) {
+		destroy(allocator<T>::array_ + allocator<T>::count_ - 1);
+		--allocator<T>::count_;
 	}
 	else throw std::logic_error("Empty stack");
 }
 template <typename T>
 auto stack<T>::empty() const noexcept -> bool{ //noexcept
-	return (count_ == 0);
+	return (allocator<T>::count_ == 0);
 }
 template<typename T> 
 stack<T>::~stack() {//noexcept
-	destroy(array_, array_ + count_);
+	destroy(allocator<T>::array_, allocator<T>::array_ + allocator<T>::count_);
 }
 
 #endif
