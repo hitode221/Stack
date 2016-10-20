@@ -1,4 +1,4 @@
-#include "stack.h"
+#include "Stack.h"
 #ifndef STC_CPP
 #define STC_CPP
 
