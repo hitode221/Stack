@@ -8,7 +8,7 @@ T* copy_array(T * array_, size_t size, size_t new_size) { //strong
 	try {
 		copy(array_, array_ + size, temp);
 	}
-	catch (exception &e) {
+	catch (std::exception &e) {
 		delete[] temp;
 		throw;
 	}
